@@ -19,11 +19,12 @@ function love.load()
 	player.ground = player.y 
 	player.y_velocity = 0 -- speed in a direction 
 
-	player.jump_height = -300 -- for some reason negative 
-	player.gravity = -500 -- character descends at this rate. Gravity should generally be greater than jump_height. 
+	player.jump_height = -400 -- for some reason negative 
+	player.gravity = -2000 -- character descends at this rate. Gravity should generally be greater than jump_height. 
 end 
 
 function love.update(dt)
+	-- Movement along the x-axis
 	if love.keyboard.isDown('d') then
 		if player.x < (love.graphics.getWidth() - player.img:getWidth()) then  -- 
 			player.x = player.x + (player.speed * dt) -- multiplying by delta time, makes sure that the movement across frame rates is consistent. 
@@ -33,13 +34,23 @@ function love.update(dt)
 			player.x = player.x - (player.speed * dt)
 		end 
 	end 
-
+	-- jumping logic 
 	if love.keyboard.isDown('space') then 
-
-		if player.y_velocity == 0 then -- players velocity is == 0 when they're on the ground. 
-			player.y_velocity = player.jump_height
+		if player.y_velocity == 0 then -- players velocity is == 0 when they're on the ground.  
+			player.y_velocity = player.jump_height -- if they're on the ground, their position can change to the jump_height. 
 		end
 	end 
+
+	if player.y ~= 0 then -- If player has already left the ground.  
+		player.y = player.y + player.y_velocity * dt -- this is the actual jumping. 
+		player.y_velocity = player.y_velocity - player.gravity * dt -- gravity applied to player
+	end 
+
+	if player.y > player.ground then -- While the player is in the air  
+		player.y_velocity = 0 -- if they jumped the velocity is set to 0, which means they're back on the ground. 
+		player.y = player.ground 
+	end
+
 end 
 
 function love.draw()
