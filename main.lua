@@ -1,8 +1,9 @@
-item = {}
-player = {}
-inventory = {}
+local player = {}
+local inventory = {} -- Use 'classic' instead. 
 
 function love.load()
+    Object = require"classic" -- classic returns an Object
+
     player.x = love.graphics.getWidth() / 2
     player.y = love.graphics.getHeight() / 2
     player.img = love.graphics.newImage('purple.png')
