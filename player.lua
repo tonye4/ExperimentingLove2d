@@ -1,6 +1,6 @@
 --! file: Player
 
-Player = Object:extend()
+local Player = Object:extend()
 
 function Player:new()
     self.x = love.graphics.getWidth() / 2
@@ -44,3 +44,4 @@ function Player:draw()
     love.graphics.print(self.stamina, 0,0)
 end
 
+return Player
